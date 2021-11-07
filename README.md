@@ -1,7 +1,10 @@
 # World_Happiness
 Project 2,  Group 4,  Statistical computation and visualisation
 
+Project about World happiness, study https://worldhappiness.report/
 
+
+Tasks
 
 CLARISSE------------------------------------------------------------------------------------------------------------------
 
