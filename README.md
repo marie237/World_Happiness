@@ -14,7 +14,9 @@ Week 01 nov and 08 nov : Read and Inspect Data
                          
 ---------------------------------------------------------------------------------------------------------------------------
 Ilan----------------------------------------------------------------------------------------------------------------------
-
+Week 01 nov and 08 nov:	Inspect Data and understand the methodology of data collection
+			Focus on healthy life expectation, search for life expectation data
+			Writing the methodology section in report
 --------------------------------------------------------------------------------------------------------------------------
 MARIE---------------------------------------------------------------------------------------------------------------------
 week 01 nov: Read about data + Search in internet for some context
