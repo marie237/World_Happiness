@@ -1,6 +1,7 @@
 # World Happiness
-### Statistical computation and visualisation, Project 2, Group 4, 
-Project about World happiness, study https://worldhappiness.report/
+### Project 2, Group 4
+
+As part of the course *Statistical computation and visualisation* we will study the  [World Happiness Report](https://worldhappiness.report/)
 
 ## Report and data
 
@@ -8,23 +9,23 @@ Project about World happiness, study https://worldhappiness.report/
 
 [Read report](https://www.overleaf.com/read/fcgytsgdcdyb)
 
-[Raw data](https://happiness-report.s3.amazonaws.com/2021/DataPanelWHR2021C2.xls/)
+[Raw data](https://happiness-report.s3.amazonaws.com/2021/DataPanelWHR2021C2.xls)
 
 
 ## Tasks
 
-- Clarisse
+1. Clarisse
   - Week 01 nov and 08 nov
 
 Read and Inspect Data: I have decided to first consider year 2019, and to study the distribution of hapiness in each part of the world ( Europe, South America, Africa, South Asia, Central Asia, East Asia and West Asia), then I have decided to study the distribution of hapiness according to the GDP. Indeed, I have decided to split countries in function of their wealth.I have then perform cluster analysis ( with k means) to group the observations based on the characteristics they possess (life ladder, log GDP per capita,healthy life expectancy at birth,perceptions of corruptions,positive and negative affect.) I have found different clusters, and try to find the best number of clusters.The next step is to plot a map with the countries which belong to different clusters.
                          
 
-- Ilan
+2. Ilan
   - Week 01 nov and 08 nov
 
 Inspect Data and understand the methodology of data collection. Focus on healthy life expectation, search for life expectation data. Writing the methodology section in report
 
-- Marie
+3. Marie
   - Week 01 nov
 
 Read about data + Search in internet for some context. Write sketch of report (Introduction + Question +Ideas of plan). Start to answer: Are people living in richer countries happier ? Correlation test + Scatterplot
@@ -32,10 +33,10 @@ Read about data + Search in internet for some context. Write sketch of report (I
   - Week 08 nov:
 
 
-- Paul
+4. Paul
   - Week 08 nov
 
 Investigating the impact of social features on happiness. Corruption, freedom, social support (and Covid phenomenon)
 
 
-- Raphaël
+5. Raphaël
