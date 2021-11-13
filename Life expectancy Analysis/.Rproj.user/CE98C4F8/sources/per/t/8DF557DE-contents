@@ -1,0 +1,234 @@
+library(base)
+library(datasets)
+library(graphics)
+library(grDevices)
+library(ggplot2)
+library(methods)
+library(RColorBrewer)
+library(stats)
+library(utils)
+
+
+
+# importing the data from 2019
+tennis2019 <- read.csv("C:/Users/ilanp/Documents/EPFL/Math?matiques/MA master sem 3 automne 2021/Statistical Computation and Visualization/tennis_atp-master/atp_matches_2019.csv")
+
+#faced break point = nbr of breakpoint of the opponent
+# saved break point = nbr of break point that the player didn't let its opponent scores
+
+# obtaining win game per match per player
+score <- tennis2019$score
+nbrWinGame_Winner <- c()
+nbrWinGame_loser <- c()
+
+for (i in 1:length(score)) {
+  h <- unlist(strsplit(score[i], "")) # to store letter by letter the score
+  a <- 0 #to calculate the win game of the winner in match i
+  b <- 0 #to calculate the win game of the loser in match i
+  for (j in 1:length(h)){
+    if (h[j] == "-") {
+      a <- a + as.numeric(h[j-1])
+      b <- b + as.numeric(h[j+1])
+    }
+  }
+  nbrWinGame_loser <- append(nbrWinGame_loser, b)
+  nbrWinGame_Winner <- append(nbrWinGame_Winner, a)
+}
+
+
+#verifying the two equations for other definition of saved/faced break point
+ValidDataPoint <- c() # if i-th component 0, then match i is non valid
+equation_winner <- tennis2019$w_SvGms - nbrWinGame_Winner + tennis2019$l_bpFaced - tennis2019$l_bpSaved - tennis2019$w_bpFaced + tennis2019$w_bpSaved
+equation_loser <- tennis2019$l_SvGms - nbrWinGame_loser + tennis2019$w_bpFaced - tennis2019$w_bpSaved - tennis2019$l_bpFaced + tennis2019$l_bpSaved
+for (i in 1:2781){
+  if (is.na(equation_winner[i]) || is.na(equation_loser)){
+    ValidDataPoint <- append(ValidDataPoint, 0)
+  } else if (equation_winner[i] == 0 & equation_loser[i] == 0){
+    ValidDataPoint <- append(ValidDataPoint, 1)
+  } else {
+    ValidDataPoint <- append(ValidDataPoint, 0)
+  }
+}
+sum(ValidDataPoint)
+
+
+#Extracting the correct data points
+winnerFacedBreakPointCorrect <- c()
+winnerSavedBreakPointCorrect <- c()
+loserFacedBreakPointCorrect <- c()
+loserSavedBreakPointCorrect <- c()
+for (i in 1:length(ValidDataPoint)){
+  if (ValidDataPoint[i] == 1) {
+    winnerFacedBreakPointCorrect <- append(winnerFacedBreakPointCorrect, tennis2019$w_bpFaced[i])
+    winnerSavedBreakPointCorrect <- append(winnerSavedBreakPointCorrect, tennis2019$w_bpSaved[i])
+    loserFacedBreakPointCorrect <- append(loserFacedBreakPointCorrect, tennis2019$l_bpFaced[i])
+    loserSavedBreakPointCorrect <- append(loserSavedBreakPointCorrect, tennis2019$l_bpSaved[i])
+  }
+}
+
+
+#I am interested about the number of opportunities a player had to score a break point and how many he confirmed
+winner.bp <- loserFacedBreakPointCorrect
+loser.bp <- winnerFacedBreakPointCorrect
+winner.confirmed.bp <- winner.bp - loserSavedBreakPointCorrect
+loser.confirmed.bp <- loser.bp - winnerSavedBreakPointCorrect
+
+#means calculation
+mean(winner.bp)
+mean(loser.bp)
+median(sort(winner.bp, decreasing = FALSE))
+median(sort(loser.bp, decreasing = FALSE))
+
+mean(winner.confirmed.bp)
+mean(loser.confirmed.bp)
+median(sort(winner.confirmed.bp, decreasing = FALSE))
+median(sort(loser.confirmed.bp, decreasing = FALSE))
+
+
+#color settings
+color <- brewer.pal(5, 'YlOrRd')
+display.brewer.pal(5, 'YlOrRd')
+
+
+# histogram of the break point Obtained by the loser 
+ggplot(data = as.data.frame(loser.bp), aes(loser.bp)) +
+  geom_histogram(breaks = seq(-1,30, by=1),
+                 col = "black",
+                 fill = color[3],
+                 alpha = 1) +
+  theme_bw() +
+  labs(x = "Number of obtained break points in one match by the loser", 
+       y = "Count")+
+  theme(axis.title = element_text(size = 25),
+        axis.text = element_text(size = 20))
+
+# histogram of the break point Obtained by the winner 
+ggplot(data = as.data.frame(winner.bp), aes(winner.bp)) +
+  geom_histogram(breaks = seq(-1,30, by=1),
+                 col = "black",
+                 fill = color[3],
+                 alpha = 1) +
+  theme_bw() +
+  labs(x = "Number of obtained break points in one match by the winner", 
+       y = "Count")+
+  theme(axis.title = element_text(size = 25),
+        axis.text = element_text(size = 20))
+
+# histogram of the break point Confirmed by the loser 
+ggplot(data = as.data.frame(loser.confirmed.bp), aes(loser.confirmed.bp)) +
+  geom_histogram(breaks = seq(-1,30, by=1),
+                 col = "black",
+                 fill = color[2],
+                 alpha = 1) +
+  theme_bw() +
+  labs(x = "Number of confirmed break points in one match by the loser", 
+       y = "Count")+
+  theme(axis.title = element_text(size = 25),
+        axis.text = element_text(size = 20))
+
+# histogram of the break point Confirmed by the winner 
+ggplot(data = as.data.frame(winner.confirmed.bp), aes(winner.confirmed.bp)) +
+  geom_histogram(breaks = seq(-1,30, by=1),
+                 col = "black",
+                 fill = color[2],
+                 alpha = 1) +
+  theme_bw() +
+  labs(x = "Number of confirmed break points in one match by the winner", 
+       y = "Count")+
+  theme(axis.title = element_text(size = 25),
+        axis.text = element_text(size = 20))
+
+# calculation of the ratio of confirmed break point of the winner/loser for each match.
+winnerRatio <- winner.confirmed.bp / winner.bp  
+loserRatio <- loser.confirmed.bp / loser.bp 
+
+
+#replacing NA value in the ratio, i.e divided by 0, with 0 as no opportunities is the worst ratio you can have
+for (i in 1:length(winnerRatio)){
+  if(is.na(winnerRatio[i])){
+    winnerRatio[i] <- 0
+  }
+  if (is.na(loserRatio[i])){
+    loserRatio[i] <- 0
+  }
+}
+  
+  
+#labeling matches with winner best ratio of saved bp
+bestRatioWinner <- c() # 1 if winner ratio strictly greater than loser ratio for match i
+nbrGreater <- 0
+nbrLower <- 0
+nbrEqual <- 0
+for (i in 1:length(winnerRatio)){
+  if (winnerRatio[i] > loserRatio[i]){
+    bestRatioWinner <- append(bestRatioWinner, 1)
+    nbrGreater <- nbrGreater + 1
+  } else if (winnerRatio[i] == loserRatio[i]) {
+    bestRatioWinner <- append(bestRatioWinner, 0)
+    nbrEqual <- nbrEqual + 1 
+  } else {
+    bestRatioWinner <- append(bestRatioWinner, 0)
+    nbrLower <- nbrLower + 1 
+  }
+}
+
+
+# bar plot for the ratio
+ratio <- data.frame(count = c(nbrGreater, nbrEqual, nbrLower),
+                    Categories = c("Greater", "Equal", "Lower"))
+ggplot(data = ratio, mapping = aes(x = Categories, y = count)) +
+  geom_bar(stat = "identity", 
+           col = "black",
+           fill = color[3],
+           alpha = 1) +
+  theme_bw() +
+  geom_text(aes(label = count), vjust = -0.2, size = 5, position = position_dodge(0.9)) +
+  theme(axis.title = element_text(size = 25),
+        axis.text = element_text(size = 20))
+
+
+# histogram of the winner ratio 
+ggplot(data= as.data.frame(winnerRatio), aes(winnerRatio)) + 
+  geom_histogram(breaks=seq(0, 1, by=0.1),
+                 col = "black",
+                 fill = color[2],
+                 alpha = 1) +
+  theme_bw() +
+  labs(x = "Ratio of confirmed break points in one match by the Winner", 
+       y = "Count") +
+  xlim(c(0,1)) +
+  ylim(c(0,500)) +
+  theme(axis.title = element_text(size = 25),
+        axis.text = element_text(size = 20))
+
+# histogram of the loser ratio 
+ggplot(data= as.data.frame(loserRatio), aes(loserRatio)) + 
+  geom_histogram(breaks=seq(-1, 1, by=0.1),
+                 col = "black",
+                 fill = color[2],
+                 alpha = 1) +
+  theme_bw() +
+  labs(x = "Ratio of confirmed break points in one match by the loser", 
+       y = "Count") +
+  xlim(c(-0.1,1)) +
+  ylim(c(0,550))+
+  theme(axis.title = element_text(size = 25),
+        axis.text = element_text(size = 20))
+
+
+mean(winnerRatio)
+mean(loserRatio)
+median(sort(winnerRatio, decreasing = FALSE))
+median(sort(loserRatio, decreasing = FALSE))
+
+
+#looking at matches where the loser ratio is equal to one
+position <- c()
+for (i in 1: length(loserRatio)){ 
+  if (loserRatio[i] == 1){
+    position <- append(position, i)
+  }
+}
+loser.bp[position]
+loser.confirmed.bp[position]
+
