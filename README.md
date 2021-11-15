@@ -32,7 +32,13 @@ Read about data + Search in internet for some context. Write sketch of report (I
 
   - Week 08 nov:
 
+  Continue to answer the question : Are people living in richer countries happier ? Re-do the plot+ correlation tests of week 08nov because change of data set 2020 --> 2021.   Add some more Scatter plot on R. Redaction of the answer and observation in the report.
 
+  -week 15 nov
+  
+ Creation in R + add on report the two maps on hapiness and GDP and the two plots distribution happpiness and GDP per regions 
+  
+  
 ### Paul
   - Week 08 nov
 
