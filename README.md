@@ -40,3 +40,6 @@ Investigating the impact of social features on happiness. Corruption, freedom, s
 
 
 ### Raphaël
+  - Week 08 nov
+
+Happiness vs time. Checking the data globally. Need to ‘clean’ the data. Kept only few (65) observations to be consistent over the years. Global and per country analysis. Creation of the map for the cluster part.
