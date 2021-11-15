@@ -36,7 +36,7 @@ Read about data + Search in internet for some context. Write sketch of report (I
 
   -week 15 nov
   
- Creation in R + add on report the two maps on hapiness and GDP and the two plots distribution happpiness and GDP per regions 
+ Creation in R + add on report the two maps on hapiness and GDP and the two plots distribution happpiness and GDP per regions + distr indicators
   
   
 ### Paul
