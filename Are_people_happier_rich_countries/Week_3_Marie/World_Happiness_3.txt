@@ -33,3 +33,42 @@ tm_shape(gdp_happiness_world) + tm_polygons(col="Happiness", palette = "YlGn", n
 tm_shape(gdp_happiness_world) + tm_polygons(col ="Happiness", style = "fixed", breaks = c(2, 4, 6, 8), legend.hist = TRUE, n=4) + tm_layout(legend.outside = TRUE) 
 
 
+#-------VISUALIZE INDICATORS DISTRIBUTION----------------------------------------------------------------------------------------------------
+
+hist(data$`Ladder score`, breaks=24,
+    main="Distribution of the Happiness score in 2021",
+    xlab="",  xlim=c(2,8), col="darkmagenta",  freq=FALSE)
+
+hist(data$`Logged GDP per capita`, breaks=24,
+main="Distribution of the Logged GDP per capita in 2021",
+ xlab="",  xlim=c(6,12), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Healthy life expectancy in 2021",
+ xlab="",  xlim=c(45,80), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Support in 2021",
+ xlab="",  xlim=c(0,1), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Freedom in 2021",
+ xlab="",  xlim=c(0,1), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Corruption in 2021",
+ xlab="",  xlim=c(0,1), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Generosity in 2021",
+ xlab="",  xlim=c(-0.3,0.6), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Positive affect in 2021",
+ xlab="",  xlim=c(2,8), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Negative affect in 2021",
+ xlab="",  xlim=c(2,8), col="darkmagenta",  freq=FALSE)
+
+
