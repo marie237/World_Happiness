@@ -24,8 +24,14 @@ data <- split(whr2021, whr2021$year) #we get data from 2005 to 2020
 #------------------------------------------------------------------------------
 #Boxplot of ladder per year
 
-ggplot(whr2021, aes(group = year, x = year, y =  `Life Ladder`)) +
-  geom_boxplot()
+ggplot(whr2021, aes(group = year, x = factor(year), y =  `Life Ladder`)) +
+  stat_boxplot(aes(ymin = ..lower.., ymax = ..upper..), outlier.shape = 1) +
+  stat_boxplot(geom = "errorbar", aes(ymin = ..ymax..),width = 0.25) +
+  stat_boxplot(geom = "errorbar", aes(ymax = ..ymin..),width = 0.25) +
+  xlab("Year") +
+  scale_x_discrete(breaks = c("2005","2010","2015","2020"))+
+  geom_boxplot(linetype = "dashed", outlier.shape = 1) +
+  geom_boxplot(aes(ymin=..lower.., ymax=..upper..))
 
 #------------------------------------------------------------------------------
 #Keep only country that are present in year 2019
@@ -69,8 +75,14 @@ for (n in 1:length(reduced_data_split)){
 
 rm(quant,n)
 
-ggplot(reduced_data, aes(group = year, x = year, y =  `Life Ladder`)) +
-  geom_boxplot()
+ggplot(reduced_data, aes(group = year, x = factor(year), y =  `Life Ladder`)) +
+  stat_boxplot(aes(ymin = ..lower.., ymax = ..upper..), outlier.shape = 1) +
+  stat_boxplot(geom = "errorbar", aes(ymin = ..ymax..),width = 0.25) +
+  stat_boxplot(geom = "errorbar", aes(ymax = ..ymin..),width = 0.25) +
+  xlab("Year") +
+  scale_x_discrete(breaks = c("2007","2010","2013","2016","2019"))+
+  geom_boxplot(linetype = "dashed", outlier.shape = 1) +
+  geom_boxplot(aes(ymin=..lower.., ymax=..upper..))
 
 #------------------------------------------------------------------------------
 #Ladder index per country
