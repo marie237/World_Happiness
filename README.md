@@ -17,7 +17,7 @@ As part of the course *Statistical computation and visualisation* we will study 
 ### Clarisse
   - Week 01 nov and 08 nov
 
-Read and Inspect Data: I have decided to first consider year 2019, and to study the distribution of hapiness in each part of the world ( Europe, South America, Africa, South Asia, Central Asia, East Asia and West Asia), then I have decided to study the distribution of hapiness according to the GDP. Indeed, I have decided to split countries in function of their wealth.I have then perform cluster analysis ( with k means) to group the observations based on the characteristics they possess (life ladder, log GDP per capita,healthy life expectancy at birth,perceptions of corruptions,positive and negative affect.) I have found different clusters, and try to find the best number of clusters.The next step is to plot a map with the countries which belong to different clusters.
+Read and Inspect Data: I have decided to first consider year 2019, and to study the distribution of happiness in each part of the world ( Europe, South America, Africa, South Asia, Central Asia, East Asia and West Asia), then I have decided to study the distribution of hapiness according to the GDP. Indeed, I have decided to split countries in function of their wealth.I have then perform cluster analysis ( with k means) to group the observations based on the characteristics they possess (life ladder, log GDP per capita,healthy life expectancy at birth,perceptions of corruptions,positive and negative affect.) I have found different clusters, and try to find the best number of clusters.The next step is to plot a map with the countries which belong to different clusters.
                          
 
 ### Ilan
@@ -42,7 +42,7 @@ Read about data + Search in internet for some context. Write sketch of report (I
 ### Paul
   - Week 08 nov
 
-Investigating the impact of social features on happiness. Corruption, freedom, social support (and Covid phenomenon)
+Investigating the impact of social features on happiness: corruption, freedom, social support. Search for some interpretations of the correlations
 
 
 ### Raphaël
