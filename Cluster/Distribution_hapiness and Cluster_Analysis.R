@@ -224,11 +224,4 @@ mean_4
 data_map <- data.frame(data_country_2019_2$data2019.whr2021..Country.name.,data_country_2019_2$cluster)
 write.csv(data_map,"Desktop\\data_map")
 
-#Raph: Study the difference of happiness index for several years: ( Not used in the report)
 
-y <- c(wesh$`7`,wesh$`8`,wesh$`9`,wesh$`10`,wesh$`11`,wesh$`12`,wesh$`13`,wesh$`14`,wesh$`15`,wesh$`16`,wesh$`17`,wesh$`18`,wesh$`19`)
-gpe <- c(rep(7,65),rep(8,65),rep(9,65),rep(10,65),rep(11,65),rep(12,65),rep(13,65),rep(14,65),rep(15,65),rep(16,65),rep(17,65),rep(18,65),rep(19,65))
-
-data_compare <- data.frame(y=y,group=factor(gpe))
-fit = lm(y~group,data_compare)
-anova(fit)
