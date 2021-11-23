@@ -20,6 +20,7 @@ color <- brewer.pal(5, 'YlOrRd')
 display.brewer.pal(5, 'YlOrRd')
 
 #Importing data from WHO and WHR
+getwd()
 setwd(getwd())
 
 WHO_Country_data <- read.csv("WHO_Country_life_expectancy_data.csv")
@@ -31,7 +32,7 @@ WHR_data <- read_excel("World_happinness_report_data_2021.xls")
 ggplot(WHR_data, aes(`Healthy life expectancy at birth`, `Life Ladder`)) +
   geom_point(alpha = 0.4, color= color[3], size=2) + 
   theme_bw()+
-  theme(axis.title = element_text(size = 20))+
+  theme(axis.title = element_text(size = 25), axis.text = element_text(size=20))+
   geom_smooth(method = "lm", se = FALSE, col = color[5]) +
   labs(x = "Healthy Life Expectancy",y = "Happiness")
 
@@ -65,8 +66,8 @@ ggplot(WHR_data_mod_life, aes(`Healthy life expectancy at birth`, `Life Ladder`,
   geom_point(aes(size = `Countries`))+
   labs(x = "Healthy Life Expectancy",y = "Happiness")+
   theme_bw()+
-  theme(axis.title = element_text(size = 20), axis.text = element_text(size = 15))+
-  theme(legend.position = c(0.14, 0.8), legend.title = element_text(size=13, face="bold"),
+  theme(axis.title = element_text(size = 25), axis.text = element_text(size = 20))+
+  theme(legend.position = c(0.14, 0.8), legend.text = element_text(size = 20), legend.title = element_text(size=25, face="bold"),
         legend.background = element_rect(size=0.5, linetype="solid", colour =color[5]))+
   scale_color_manual(values = c(color[5], color[3], color[4]))+
   scale_size_manual(values = c(3, 2, 3))+
@@ -89,9 +90,10 @@ switzerland_life <- WHO_Country_data$Life.expectancy.at.birth..years.[switzerlan
 haiti_healthy_life <- WHO_Country_data$Healthy.life.expectancy..HALE..at.birth..years.[haiti]
 haiti_life <- WHO_Country_data$Life.expectancy.at.birth..years.[haiti]
 
+
 #plotting
 
-date <- c(2019, 2015, 2010, 2000)
+date <- c(2000, 2010, 2015, 2019)
 #as there will be many plots, I created a function to plot automatically
 makeplot <- function(y_1, y_2, ylim, x_leg, y_leg){
     
@@ -102,49 +104,52 @@ makeplot <- function(y_1, y_2, ylim, x_leg, y_leg){
   
   plot(y = y_1, x= date, ylim = ylim, xlim = c(2000, 2020), 
        type = 'o', pch=20, col = color[2], lwd = 4, cex = 2,
-       xlab = 'Year', ylab = 'Age', cex.lab = 1.6)
+       xlab = 'Year', ylab = 'Age', cex.lab = 2, cex.axis = 1.7)
   points(y= y_2, x= date, 
          type = 'o', pch=20, col = color[3], lwd = 4, cex =2)
-  legend(x = x_leg, y = y_leg, legend = c("Life Expectancy", "Healthy Life Expectancy"), col=c(color[2], color[3]), lty = 1)
+  legend(x = x_leg, y = y_leg, legend = c("Life Expectancy", "Healthy Life Expectancy"), col=c(color[2], color[3]), lty = 1, cex =1.5, bty = "n")
 }
 
+
 #singapore
-makeplot(singapore_life, singapore_healthy_life, c(60, 90), 2013, 90)
+makeplot(rev(singapore_life), rev(singapore_healthy_life), c(60, 90), 2013, 90)
+
 
 #haiti
-makeplot(haiti_life, haiti_healthy_life, c(20, 80), 2013, 80)
+makeplot(rev(haiti_life), rev(haiti_healthy_life), c(20, 80), 2013, 80)
 
 #Switzerland
-makeplot(switzerland_life, switzerland_healthy_life, c(60, 90), 2013, 90)
+makeplot(rev(switzerland_life), rev(switzerland_healthy_life), c(60, 90), 2013, 90)
 
 
 #Clustering of Clarisse
 #imoporting data used by Clarisse
-data <- data.frame(WHR_data$`Country name`,WHR_data$year,WHR_data$`Life Ladder`,WHR_data$`Log GDP per capita`, WHR_data$`Social support`,WHR_data$`Healthy life expectancy at birth`,WHR_data$`Perceptions of corruption`)
+data <- data.frame(WHR_data$`Country name`,WHR_data$year,WHR_data$`Life Ladder`, WHR_data$`Freedom to make life choices`, WHR_data$`Positive affect`, WHR_data$`Negative affect`,WHR_data$`Log GDP per capita`, WHR_data$`Social support`,WHR_data$`Healthy life expectancy at birth`,WHR_data$`Perceptions of corruption`)
 data2019 <- data[which(data$WHR_data.year == 2019),]
 
 #Clustering with K-means algorithm: 
-data_cluster_2019 <- data.frame(data2019$WHR_data..Life.Ladder.,data2019$WHR_data..Log.GDP.per.capita.,data2019$WHR_data..Social.support.,data2019$WHR_data..Healthy.life.expectancy.at.birth.,data2019$WHR_data..Perceptions.of.corruption.)
-row.names(data_cluster_2019) <- data2019$WHR_data..Country.name.
-data_cluster_2019 <- na.omit(data_cluster_2019)
+data_country_2019 <- data.frame(data2019$WHR_data..Country.name.,data2019$WHR_data..Life.Ladder.,data2019$WHR_data..Log.GDP.per.capita.,
+                                data2019$WHR_data..Social.support.,data2019$WHR_data..Healthy.life.expectancy.at.birth.,data2019$WHR_data..Perceptions.of.corruption.,data2019$WHR_data..Freedom.to.make.life.choices.,data2019$WHR_data..Negative.affect.,data2019$WHR_data..Positive.affect.)
+data_country_2019 <- na.omit(data_country_2019)
+data_cluster_2019_2 <- data_country_2019[-1]
+
 
 #Repeat clustering with 4 clusters
-set.seed(1245)
-kluster4 <- kmeans(data_cluster_2019,centers=4)
-data_cluster_2019$cluster4 <- as.factor(kluster4$cluster)
-table(kluster4$cluster)
+kluster4 <- kmeans(data_cluster_2019_2,centers=4)
+data_country_2019$cluster <- as.factor(kluster4$cluster)
+table(data_country_2019$cluster)
 
 #Group of country per cluster
-cluster_1 <- which(data_cluster_2019$cluster4 == 1)
+cluster_1 <- which(data_country_2019$cluster == 1)
 country_cluster_1 <- data2019$WHR_data..Country.name.[cluster_1]
 
-cluster_2 <- which(data_cluster_2019$cluster4 == 2)
+cluster_2 <- which(data_country_2019$cluster == 2)
 country_cluster_2 <- data2019$WHR_data..Country.name.[cluster_2]
 
-cluster_3 <- which(data_cluster_2019$cluster4 == 3)
+cluster_3 <- which(data_country_2019$cluster == 3)
 country_cluster_3 <- data2019$WHR_data..Country.name.[cluster_3]
 
-cluster_4 <- which(data_cluster_2019$cluster4 == 4)
+cluster_4 <- which(data_country_2019$cluster == 4)
 country_cluster_4 <- data2019$WHR_data..Country.name.[cluster_4]
 
 
@@ -172,7 +177,7 @@ WHO_cluster_4_average <- WHO_cluster_4[,-1] %>% group_by(WHO_Country_data.X.1) %
 #plotting
 #cluster 1
 makeplot(y_1 = WHO_cluster_1_average$Life.expectancy.at.birth., y_2 = WHO_cluster_1_average$Healthy.life.expectancy.at.birth., 
-         ylim = c(50, 80), x_leg = 2013, y_leg = 80)
+         ylim = c(50, 80), x_leg = 2013, y_leg = 82)
 
 #cluster 2
 makeplot(y_1 = WHO_cluster_2_average$Life.expectancy.at.birth., y_2 = WHO_cluster_2_average$Healthy.life.expectancy.at.birth., 
@@ -191,7 +196,8 @@ global <- which(WHO_Continent_data$X == "Global")
 global_healthy_life <- WHO_Continent_data$Healthy.life.expectancy..HALE..at.birth..years.[global]
 global_life <- WHO_Continent_data$Life.expectancy.at.birth..years.[global]
 
-makeplot(y_1 = global_life, y_2 = global_healthy_life, ylim = c(50, 80), x_leg = 2013, y_leg = 80)
+makeplot(y_1 = rev(global_life), y_2 = rev(global_healthy_life), ylim = c(50, 80), x_leg = 2013, y_leg = 80)
+
 
 
 
