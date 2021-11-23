@@ -1,0 +1,74 @@
+#-------VISUALIZE GDP AND HAPPINESS SCORE----------------------------------------------------------------------------------------------------
+
+library(ggplot2)
+p <- ggplot(data,aes(`Regional indicator`,`Logged GDP per capita`))
+p + geom_boxplot(aes(col=`Regional indicator`)) + geom_jitter(width = 0.1,height=0,aes(color=`Regional indicator`)) +  theme(axis.text.x = element_blank())
+
+q <- ggplot(data,aes(`Regional indicator`,`Ladder score`))
+q + geom_boxplot(aes(col=`Regional indicator`)) + geom_jitter(width = 0.1,height=0,aes(color=`Regional indicator`)) +  theme(axis.text.x = element_blank())
+
+library(tmap)
+data("World")
+
+data(World)
+gdp<- data[c(1,3,7)]
+colnames(gdp) <- c("name", "Happiness Score", "GDP")
+
+install.packages("writexl")
+library("writexl")
+write_xlsx(gdp,"C:\\Users\\fnac\\Desktop\\Semestre I\\Statistical computation and visualisation\\gdp.xlsx")
+write_xlsx(World,"C:\\Users\\fnac\\Desktop\\Semestre I\\Statistical computation and visualisation\\world.xlsx")
+install.packages("readxl")
+library("readxl")
+world2 <- read_excel("C:\\Users\\fnac\\Desktop\\Semestre I\\Statistical computation and visualisation\\WORLD22.xlsx")
+
+gdp_happiness_world <- merge(World, world2, by="name")
+
+#The "jenks" style identifies groups of similar values in the data and maximizes the differences between categories
+m<-tm_shape(gdp_happiness_world) + tm_polygons(col ="Happiness", style = "jenks", legend.hist = TRUE) + tm_layout(legend.outside = TRUE) 
+mm<-tm_shape(gdp_happiness_world) + tm_polygons(col ="GDP", style = "jenks", legend.hist = TRUE) + tm_layout(legend.outside = TRUE) 
+
+
+tm_shape(gdp_happiness_world) + tm_polygons(col="Happiness", palette = "YlGn", n=5)
+tm_shape(gdp_happiness_world) + tm_polygons(col ="Happiness", style = "fixed", breaks = c(2, 4, 6, 8), legend.hist = TRUE, n=4) + tm_layout(legend.outside = TRUE) 
+
+
+#-------VISUALIZE INDICATORS DISTRIBUTION----------------------------------------------------------------------------------------------------
+
+hist(data$`Ladder score`, breaks=24,
+    main="Distribution of the Happiness score in 2021",
+    xlab="",  xlim=c(2,8), col="darkmagenta",  freq=FALSE)
+
+hist(data$`Logged GDP per capita`, breaks=24,
+main="Distribution of the Logged GDP per capita in 2021",
+ xlab="",  xlim=c(6,12), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Healthy life expectancy in 2021",
+ xlab="",  xlim=c(45,80), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Support in 2021",
+ xlab="",  xlim=c(0,1), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Freedom in 2021",
+ xlab="",  xlim=c(0,1), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Corruption in 2021",
+ xlab="",  xlim=c(0,1), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Generosity in 2021",
+ xlab="",  xlim=c(-0.3,0.6), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Positive affect in 2021",
+ xlab="",  xlim=c(2,8), col="darkmagenta",  freq=FALSE)
+
+hist(data, breaks=24,
+main="Distribution of the Negative affect in 2021",
+ xlab="",  xlim=c(2,8), col="darkmagenta",  freq=FALSE)
+
+

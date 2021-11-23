@@ -1,0 +1,80 @@
+data <- read_excel("D:\\Documents\\données\\WHR2021.xls")
+
+library(readxl)
+library(tidyverse)
+library(stringr)
+library(ggplot2)
+library(RColorBrewer)
+color <- brewer.pal(5,'YlOrRd')
+color[1] <- '#f2f0f0'
+
+# Boxplot of the features
+
+# Violin Plots
+library(vioplot)
+x1 <- data$'Social support'
+x2 <- data$'Freedom to make life choices'
+x3 <- data$'Perceptions of corruption'
+vioplot(x1, x2, x3, names=c("Social support", "Freedom to make life choices", "Perceptions of corruption"),
+        col= "red")
+
+#first analysis of the different correlations between life ladder (happiness) and social features
+
+#social support
+
+p<-ggplot(data, aes(`Social support`, `Life Ladder`) ) + geom_point(color='red', size=2)
+p + geom_smooth(method = "lm", se = FALSE) + labs(x = "Social support",y = "Life Ladder") + stat_smooth(color = "black", linetype="dashed")+
+ylim(0, 10)
+
+cor.test(data$`Social support`, data$`Life Ladder`, method="spearman", exact = FALSE)
+
+cor.test(data$`Social support`, data$`Life Ladder`, method="pearson", conf.level = 0.95)
+
+# Apply loess function
+values <- loess(`Life Ladder` ~ `Social support`, data= data)    
+predict(values)
+
+#Freedom to make life choices
+
+p<-ggplot(data, aes(`Freedom to make life choices`, `Life Ladder`) )+ geom_point(color='red', size=2)
+p + geom_smooth(method = "lm", se = FALSE) +labs(x = "Freedom to make life choices",y = "Life Ladder")+
+  ylim(0, 10)
+
+cor.test(data$`Freedom to make life choices`, data$`Life Ladder`, method="spearman", exact = FALSE)
+
+cor.test(data$`Freedom to make life choices`, data$`Life Ladder`, method="pearson", conf.level = 0.95)
+  
+
+#Perception of corruption
+
+p<-ggplot(data, aes(`Perceptions of corruption`, `Life Ladder`) )+ geom_point(color='red', size=2)
+p + geom_smooth(method = "lm", se = FALSE) +labs(x = "Perceptions of corruption",y = "Life Ladder") + 
+geom_abline(intercept = 4.6, slope = -2.579 , color="orange", linetype="dashed", size=1.5)+
+ylim(0, 10)
+cor.test(data$`Perceptions of corruption`, data$`Life Ladder`, method="spearman", exact = FALSE)
+
+cor.test(data$`Perceptions of corruption`, data$`Life Ladder`, method="pearson", conf.level = 0.95)
+
+
+#understanding the outlier occuring in "corruption"
+
+lm(`Life Ladder` ~ `Perceptions of corruption`, data = data)
+
+data_out <- subset(data,  data$`Life Ladder` < 4.6-2.579*data$`Perceptions of corruption`)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
